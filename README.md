@@ -1,1 +1,1 @@
-# CalcMate.github.io
+# TYech5Calc.github.io
