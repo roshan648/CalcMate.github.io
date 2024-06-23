@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background:url("image.jpg")  center/cover no-repeat;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: white;
+            position: relative;
+        }
+        .calculator {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px; 
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+  
+        
+        .display {
+            width: calc(100% - 20px); 
+            height:60px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            box-sizing: border-box;
+            text-align: center;
+            resize: none; 
+            overflow: auto; 
+        }
+        .button {
+            width: 22%;
+            padding: 15px;
+            margin: 1%;
+            border: none;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            font-size: 1.5em;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        .button:active {
+            background: linear-gradient(135deg, #de4872 0%, #000000 100%);
+        }
+        .button2 {
+            width: 14.6%;
+            padding: 15px;
+            margin: 1%;
+            border: none;
+            border-radius: 5px;
+            background: white;
+            font-size: 1.1em;
+            color: rgba(0, 0, 0, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .button2:hover {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        .button2:active {
+          background: linear-gradient(135deg, #de4872 0%, #000000 100%);
+        }
+        .buttons {
+            width: 100%;
+            padding: 15px;
+            margin: 1%;
+            border: none;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            font-size: 1.5em;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .buttons:hover {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        .buttons:active {
+          background: linear-gradient(135deg, #de4872 0%, #000000 100%);
+        }
+        .info {
+            position: absolute;
+            top: 20px; 
+            right: 20px; 
+            color: white;
+            text-align: center;
+        }
+        .info a {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            transition: background 0.3s ease;
+            text-align: center;
+            line-height: 50px;
+            margin-left: 10px; 
+        }
+        .info a img {
+            width: 60%;
+            height: 60%;
+            vertical-align: middle;
+        }
+        .info a:hover {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        .info a:active {
+          background: linear-gradient(135deg, #de4872 0%, #000000 100%);
+        }
+        .name {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: linear-gradient(135deg, #de4872 0%, #000000 100%);
+        }
+        .name:hover {
+            transform: scale(1.1); 
+        }
+        .scientific-buttons {
+            display: none; 
+            flex-wrap: wrap; 
+        }
+        .scientific-buttons.active {
+            display: flex; 
+        }
+        .history-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .history-button:hover {
+            transform: scale(1.1); 
+        }
+        .history-button:active{
+          background: linear-gradient(135deg, #de4872 0%, #000000 100%);
+        }
+        .history-content {
+            position: absolute;
+            bottom: 20px;
+            left: calc(20px + 160px); 
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .history-content.active {
+            display: block;
+        }
+        .history-item {
+            margin-bottom: 10px;
+            color: white;
+        }
+        .history-item span {
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .button {
+                width: 48%;
+                font-size: 1.2em;
+                padding: 10px;
+            }
+            .info {
+                justify-content: center; 
+            }
+        }
+
+        
+        .contact-buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+        }
+        .contact-buttons a {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            margin-left: 10px;
+            transition: background 0.3s ease;
+            text-align: center;
+            line-height: 50px;
+        }
+        .contact-buttons a img {
+            width: 60%;
+            height: 60%;
+            vertical-align: middle;
+        }
+        .contact-buttons a:hover {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        .contact-buttons a:active {
+            background: linear-gradient(135deg, #800080 0%, #000000 100%);
+        } 
+        p{
+          width:100%;
+          font-size:4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="name" id="nameButton">CalcMate</div>
+    <div class="calculator" id="calculator">
+        <textarea class="display" id="display" readonly></textarea>
+        <button class="button" onclick="appendNumber('1')">1</button>
+        <button class="button" onclick="appendNumber('2')">2</button>
+        <button class="button" onclick="appendNumber('3')">3</button>
+        <button class="button" onclick="appendOperator('+')">+</button>
+        <br>
+        <button class="button" onclick="appendNumber('4')">4</button>
+        <button class="button" onclick="appendNumber('5')">5</button>
+        <button class="button" onclick="appendNumber('6')">6</button>
+        <button class="button" onclick="appendOperator('-')">-</button>
+        <br>
+        <button class="button" onclick="appendNumber('7')">7</button>
+        <button class="button" onclick="appendNumber('8')">8</button>
+        <button class="button" onclick="appendNumber('9')">9</button>
+        <button class="button" onclick="appendOperator('*')">×</button>
+        <br>
+        <button class="button" onclick="appendNumber('0')">0</button>
+        <button class="button" onclick="clearDisplay()">C</button>
+        <button class="button" onclick="calculate()">=</button>
+        <button class="button" onclick="appendOperator('/')">÷</button>
+        <br>
+        <button class="buttons" id="toggleScientificButton" onclick="toggleScientific()">Scientific Calculator</button>
+        <div class="scientific-buttons" id="scientific-buttons">
+            <p>  </p>
+            <button class="button2" onclick="appendConstant('pi')">π</button>
+            <button class="button2" onclick="appendFunction('Math.sqrt')">√</button>
+            <button class="button2" onclick="appendFunction('Math.pow')">^</button>
+            <button class="button2" onclick="appendFunction('Math.log')">log</button>
+            <button class="button2" onclick="appendFunction('Math.exp')">exp</button>
+            <button class="button2" onclick="appendFunction('Math.sin')">sin</button>
+            <br>
+            <button class="button2" onclick="appendFunction('Math.cos')">cos</button>
+            <button class="button2" onclick="appendFunction('Math.tan')">tan</button>
+            <button class="button2" onclick="appendFunction('Math.asin')">sin⁻¹</button>
+            <button class="button2" onclick="appendFunction('Math.acos')">cos⁻¹</button>
+            <button class="button2" onclick="appendFunction('Math.atan')">tan⁻¹</button>
+            <button class="button2" onclick="appendFunction('Math.sinh')">sinh</button>
+            <br>
+            <button class="button2" onclick="appendFunction('Math.cosh')">cosh</button>
+            <button class="button2" onclick="appendFunction('Math.tanh')">tanh</button>
+            <button class="button2" onclick="appendOperator('(')">(</button>
+            <button class="button2" onclick="appendOperator(')')">)</button>
+            <button class="button2" onclick="appendOperator('%')">%</button>
+            <button class="button2" onclick="calculateFactorial()">!</button>
+            <br>
+            <button class="buttons" id="toggleSimpleButton" onclick="toggleScientific()">Simple Calculator</button>
+        </div>
+        <div class="history-button" id="historyButton">History</div>
+        <div class="history-content" id="historyContent">
+            <div id="historyList"></div>
+        </div>
+    </div>
+    <div class="info">
+        <a href="https://github.com/roshan648" target="_blank">
+            <img src="https://avatars.githubusercontent.com/u/74945888?v=4" alt="GitHub" class="social-icon">
+        </a>
+    </div>
+    <div class="contact-buttons">
+        <a href="https://www.linkedin.com/in/roshan-melvin-b55287289/" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+        </a>
+        <a href="mailto:rocroshanga@gmail.com" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Gmail">
+        </a>
+    </div>
+    <script>
+        let history = [];
+
+        function appendNumber(number) {
+            let display = document.getElementById('display');
+            if (display.value.includes('=')) {
+                display.value = ''; 
+            }
+            display.value += number;
+        }
+
+        function appendOperator(operator) {
+            let display = document.getElementById('display');
+            if (!display.value.includes('=')) {
+                display.value += ' ' + operator + ' ';
+            }
+        }
+
+        function appendFunction(func) {
+            let display = document.getElementById('display');
+            if (!display.value.includes('=')) {
+                display.value += ' ' + func + '(';
+            }
+        }
+
+        function appendConstant(constant) {
+            let display = document.getElementById('display');
+            if (!display.value.includes('=')) { 
+                display.value += ' ' + constant + ' ';
+            }
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            let display = document.getElementById('display');
+            let calculation = display.value;
+            calculation = calculation.replace(/×/g, '*').replace(/÷/g, '/').replace(/\^/g, '**');
+            try {
+                let result = eval(calculation);
+                display.value = result;
+                history.push(calculation + ' = ' + result); 
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+
+        function calculateFactorial() {
+            let display = document.getElementById('display').value;
+            let num = parseInt(display.split(' ').pop());
+            if (isNaN(num)) {
+                document.getElementById('display').value = "Error";
+                return;
+            }
+            let result = factorial(num);
+            document.getElementById('display').value = result;
+            history.push(display + ' = ' + result); 
+        }
+
+        function factorial(n) {
+            return (n != 1) ? n * factorial(n - 1) : 1;
+        }
+
+        function toggleScientific() {
+            var scientificButtons = document.getElementById('scientific-buttons');
+            var toggleButton = document.getElementById('toggleScientificButton');
+            var simpleButton = document.getElementById('toggleSimpleButton');
+
+            if (scientificButtons.classList.contains('active')) {
+                
+                scientificButtons.classList.remove('active');
+                toggleButton.style.display = 'block';
+                simpleButton.style.display = 'none';
+            } else {
+               
+                if (!scientificButtons.classList.contains('added')) {
+                    // Append scientific buttons to calculator
+                    calculator.appendChild(scientificButtons);
+                    scientificButtons.classList.add('active');
+                }
+                toggleButton.style.display = 'none';
+                simpleButton.style.display = 'block';
+            }
+        }
+
+        document.getElementById('historyButton').addEventListener('click', function() {
+            var historyContent = document.getElementById('historyContent');
+            var historyList = document.getElementById('historyList');
+          
+            historyList.innerHTML = '';
+
+           
+            history.forEach(function(item) {
+                var historyItem = document.createElement('div');
+                historyItem.classList.add('history-item');
+                historyItem.textContent = item;
+                historyList.appendChild(historyItem);
+            });
+
+            
+            historyContent.classList.toggle('active');
+        });
+
+        document.getElementById('nameButton').addEventListener('click', function() {
+            display.value="HELLO";
+        });
+
+        
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', function() {
+                let display = document.getElementById('display');
+                if (display.value === "Error" || display.value === result ) {
+                    clearDisplay(); 
+                }
+            });
+        });
+    </script>
+</body>
+</html>
